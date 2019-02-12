@@ -7,5 +7,3 @@
 My algorithm design sketch.
 
 See images for psudo code.
-
-[Here's a link to the piece](https://ryanab702.github.io/hello_world_sketch_rework/)
