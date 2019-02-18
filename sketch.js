@@ -3,12 +3,14 @@ let num_dots = 10;
 let center_size = 150;
 let myCenter;
 let myDots = []; // array to hold dot objects
+let rand;
 
 //Create 1 center object and fill myDots array
 function setup(){
     createCanvas(windowWidth, windowHeight);
     rectMode(CENTER);
     ellipseMode(CENTER);
+    rand = false;
     
     myCenter = new Center(windowWidth/2, windowHeight/2, center_size, 255, ellipse);
     for(let i=0; i<num_dots; i++){
@@ -23,15 +25,19 @@ function draw(){
     for(let i=0; i<myDots.length; i++){
         myDots[i].display();
         myDots[i].move();
+        //Check if intersect center to reset color and size;
         if(myDots[i].intersects(myCenter)){
             myDots[i].color = myCenter.color;
             myDots[i].size = random(10, 50);
         }
-        for(let j=0; j<myDots.length; j++){
-            if(j != i){
-                if(myDots[i].intersects(myDots[j])){
-                    myDots[i].color = color(random(255), random(255), random(255));
-                    myDots[j].color = color(random(255), random(255), random(255));
+        //Check if intersect other dot to reset colors
+        if(rand === true){
+            for(let j=0; j<myDots.length; j++){
+                if(j != i){
+                    if(myDots[i].intersects(myDots[j])){
+                        myDots[i].color = color(random(255), random(255), random(255));
+                        myDots[j].color = color(random(255), random(255), random(255));
+                    }
                 }
             }
         }
@@ -143,43 +149,89 @@ class Center{
 
 //Handles all keyPressed instances 
 function keyPressed(){
-    //"ENTER"
-    if(keyCode === ENTER){
+    //"SPACE" all objects to white
+    if(keyCode === 32){
         myCenter.color = 255;
         for(var i=0; i<myDots.length; i++){
             myDots[i].color = (255);
         }
     }
-    //"SPACE"
-    if(keyCode === 32){
+    //"ENTER" center object to white
+    if(keyCode === ENTER){
         myCenter.color = 255;
     }
-    //"SHIFT"
+    //"SHIFT" dot objects to white
     if(keyCode === SHIFT){
         for(var i=0; i<myDots.length; i++){
             myDots[i].color = (255);
         }
     }
-    //"r"
-    if(keyCode === 82){
+
+
+    //"s" switch to squares
+    if(keyCode === 83){
         for(var i=0; i<myDots.length; i++){
             myDots[i].rectShift();
         }
         myCenter.rectShift();
     }
-    //"e"
+    //"e" switch to ellipses
     if(keyCode === 69){
         for(var i=0; i<myDots.length; i++){
             myDots[i].ellipseShift();
         }
         myCenter.ellipseShift();
     }
-    //"up"
+
+
+    //"c" toggle random color generation 
+    if(keyCode === 67){
+        if(rand === false){rand = true;}
+        else{rand = false;}
+    }
+    //"b" all to blue
+    if(keyCode === 66){
+        myCenter.color = color(0, 0, 255);
+        for(var i=0; i<myDots.length; i++){
+            myDots[i].color = color(0, 0, 255);
+        }
+    }
+    //"g" all to green
+    if(keyCode === 71){
+        myCenter.color = color(0, 255, 0);
+        for(var i=0; i<myDots.length; i++){
+            myDots[i].color = color(0, 255, 0);
+        }
+    }
+    //"r" all to red
+    if(keyCode === 82){
+        myCenter.color = color(255, 0, 0);
+        for(var i=0; i<myDots.length; i++){
+            myDots[i].color = color(255, 0, 0);
+        }
+    }
+    //"y" all to yellow
+    if(keyCode === 89){
+        myCenter.color = color(255, 255, 0);
+        for(var i=0; i<myDots.length; i++){
+            myDots[i].color = color(255, 255, 0);
+        }
+    }
+    //"p" all to pink
+    if(keyCode === 80){
+        myCenter.color = color(255,20,147);
+        for(var i=0; i<myDots.length; i++){
+            myDots[i].color = color(255,20,147);
+        }
+    }
+
+    
+    //"up" add more dots
     if(keyCode === UP_ARROW){
         var temp = myCenter.shape;
         myDots.push(new Dot(myCenter.x, myCenter.y, random(-10, 10), random(-10, 10), 20, 255, temp));
     }
-    //"down"
+    //"down" remove dots 
     if(keyCode === DOWN_ARROW){
         myDots.splice(0,1);
     }
