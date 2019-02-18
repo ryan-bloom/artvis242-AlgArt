@@ -4,6 +4,7 @@ let center_size = 150;
 let myCenter;
 let myDots = []; // array to hold dot objects
 let rand;
+let col;
 
 //Create 1 center object and fill myDots array
 function setup(){
@@ -11,6 +12,7 @@ function setup(){
     rectMode(CENTER);
     ellipseMode(CENTER);
     rand = false;
+    col = document.getElementById("color_picker");
     
     myCenter = new Center(windowWidth/2, windowHeight/2, center_size, 255, ellipse);
     for(let i=0; i<num_dots; i++){
@@ -21,6 +23,7 @@ function setup(){
 //Move dots in myDots checking for collisions each iteration 
 function draw(){
     background(0);
+    col = document.getElementById("color_picker");
    
     for(let i=0; i<myDots.length; i++){
         myDots[i].display();
@@ -44,7 +47,7 @@ function draw(){
     }
     //Display myCenter and interact with mouse 
     myCenter.display();
-    if(mouseIsPressed){
+    if(mouseIsPressed && mouseY > 4){
         myCenter.colorChange();
         myCenter.pulse();
     }
@@ -92,15 +95,6 @@ class Dot{
             this.history.splice(0,1);
         }
     }
-
-    //Turn all into squares
-    rectShift(){
-        this.shape = rect;
-    }
-    //Turn all into ellipses
-    ellipseShift(){
-        this.shape = ellipse;
-    }
     //Check for collisions
     intersects(arg){
         return(collideCircleCircle(this.x, this.y, this.size, arg.x, arg.y, arg.size));
@@ -132,20 +126,11 @@ class Center{
         this.color = color(random(0,255), random(0,255), random(0,255));
         this.display();
     }
-    //Change shape to square
-    rectShift(){
-        this.shape = rect;
-    }
-    //Change shape to ellipse
-    ellipseShift(){
-        this.shape = ellipse;
-    }
     //Grows when mouse is pressed
     pulse(){
         this.size += 2;
     }
 }
-
 
 //Handles all keyPressed instances 
 function keyPressed(){
@@ -166,66 +151,6 @@ function keyPressed(){
             myDots[i].color = (255);
         }
     }
-
-
-    //"s" switch to squares
-    if(keyCode === 83){
-        for(var i=0; i<myDots.length; i++){
-            myDots[i].rectShift();
-        }
-        myCenter.rectShift();
-    }
-    //"e" switch to ellipses
-    if(keyCode === 69){
-        for(var i=0; i<myDots.length; i++){
-            myDots[i].ellipseShift();
-        }
-        myCenter.ellipseShift();
-    }
-
-
-    //"c" toggle random color generation 
-    if(keyCode === 67){
-        if(rand === false){rand = true;}
-        else{rand = false;}
-    }
-    //"b" all to blue
-    if(keyCode === 66){
-        myCenter.color = color(0, 0, 255);
-        for(var i=0; i<myDots.length; i++){
-            myDots[i].color = color(0, 0, 255);
-        }
-    }
-    //"g" all to green
-    if(keyCode === 71){
-        myCenter.color = color(0, 255, 0);
-        for(var i=0; i<myDots.length; i++){
-            myDots[i].color = color(0, 255, 0);
-        }
-    }
-    //"r" all to red
-    if(keyCode === 82){
-        myCenter.color = color(255, 0, 0);
-        for(var i=0; i<myDots.length; i++){
-            myDots[i].color = color(255, 0, 0);
-        }
-    }
-    //"y" all to yellow
-    if(keyCode === 89){
-        myCenter.color = color(255, 255, 0);
-        for(var i=0; i<myDots.length; i++){
-            myDots[i].color = color(255, 255, 0);
-        }
-    }
-    //"p" all to pink
-    if(keyCode === 80){
-        myCenter.color = color(255,20,147);
-        for(var i=0; i<myDots.length; i++){
-            myDots[i].color = color(255,20,147);
-        }
-    }
-
-    
     //"up" add more dots
     if(keyCode === UP_ARROW){
         var temp = myCenter.shape;
@@ -242,6 +167,33 @@ function keyPressed(){
 function mouseReleased(){
     while(myCenter.size > center_size){
         myCenter.size -= 1;
+    }
+}
+
+function toggleCollisions(){
+    if(rand === false){rand = true;}
+    else{rand = false;}
+}
+
+function colorSwap(){
+    myCenter.color = col.value;
+    for(var i=0; i<myDots.length; i++){
+        myDots[i].color = col.value;
+    }
+}
+
+function shapeShift(){
+    if(myCenter.shape === rect){
+        myCenter.shape = ellipse;
+        for(var i=0; i<myDots.length; i++){
+            myDots[i].shape = ellipse;
+        }
+    }
+    else{
+        myCenter.shape = rect;
+        for(var i=0; i<myDots.length; i++){
+            myDots[i].shape = rect;
+        }
     }
 }
 
