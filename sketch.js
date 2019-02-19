@@ -100,10 +100,11 @@ class Dot{
         return(collideCircleCircle(this.x, this.y, this.size, arg.x, arg.y, arg.size));
     }
     //Potentially reset velocities 
+    /*
     setVelo(){
         this.vx = random(-5, 5);
         this.vy = random(-5, 5);
-    }
+    }*/
 }
 
 //myCenter object class
@@ -136,6 +137,7 @@ class Center{
 function keyPressed(){
     //"SPACE" all objects to white
     if(keyCode === 32){
+        col.value = "#ffffff";
         myCenter.color = 255;
         for(var i=0; i<myDots.length; i++){
             myDots[i].color = (255);
@@ -147,6 +149,7 @@ function keyPressed(){
     }
     //"SHIFT" dot objects to white
     if(keyCode === SHIFT){
+        col.value = "#ffffff";
         for(var i=0; i<myDots.length; i++){
             myDots[i].color = (255);
         }
@@ -154,7 +157,8 @@ function keyPressed(){
     //"up" add more dots
     if(keyCode === UP_ARROW){
         var temp = myCenter.shape;
-        myDots.push(new Dot(myCenter.x, myCenter.y, random(-10, 10), random(-10, 10), 20, 255, temp));
+        //myDots.push(new Dot(myCenter.x, myCenter.y, random(-10, 10), random(-10, 10), 20, 255, temp));
+        myDots.push(new Dot(mouseX, mouseY, random(-10, 10), random(-10, 10), 20, col.value, temp));
     }
     //"down" remove dots 
     if(keyCode === DOWN_ARROW){
