@@ -14,9 +14,14 @@
         ul{
             text-align: center;
         }
+        input{
+            display: block;
+            float: left;
+        }
     </style>
 </head>
 <body>
+    <!--Controller buttons to impact the artwork-->
     <div class="checkBoxDiv">
         <input type="checkbox" name="collisions" value="collide" style="width:20px;height:20px;" onclick="toggleCollisions()">
         <input type="color" id="color_picker" value="#ffffff" onchange="colorSwap()">

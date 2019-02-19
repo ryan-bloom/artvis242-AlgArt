@@ -5,8 +5,8 @@ let myCenter;
 let myDots = []; // array to hold dot objects
 let rand;
 let col;
-let rotation = 0;
-let rotFactor = 0.06;
+let rotation;
+let rotFactor;
 
 //Create 1 center object and fill myDots array
 function setup(){
@@ -14,6 +14,8 @@ function setup(){
     rectMode(CENTER);
     ellipseMode(CENTER);
     rand = false;
+    rotation = 0;
+    rotFactor = 0.06;
     col = document.getElementById("color_picker");
     
     myCenter = new Center(windowWidth/2, windowHeight/2, center_size, 255, ellipse);
@@ -101,12 +103,6 @@ class Dot{
     intersects(arg){
         return(collideCircleCircle(this.x, this.y, this.size, arg.x, arg.y, arg.size));
     }
-    //Potentially reset velocities 
-    /*
-    setVelo(){
-        this.vx = random(-5, 5);
-        this.vy = random(-5, 5);
-    }*/
 }
 
 //myCenter object class
@@ -191,11 +187,13 @@ function mouseReleased(){
     }
 }
 
+//Called when check box is clicked -- turn collision detection on and off
 function toggleCollisions(){
     if(rand === false){rand = true;}
     else{rand = false;}
 }
 
+//Called when color selctor is changed -- turn all elements selected color
 function colorSwap(){
     myCenter.color = col.value;
     for(var i=0; i<myDots.length; i++){
@@ -203,6 +201,7 @@ function colorSwap(){
     }
 }
 
+//Called when shape shift button clicked -- turns to other shape
 function shapeShift(){
     if(myCenter.shape === rect){
         myCenter.shape = ellipse;
@@ -218,6 +217,7 @@ function shapeShift(){
     }
 }
 
+//Changes direction of rotation of center square
 function rotateSwap(){
     rotFactor *= -1;
 }
