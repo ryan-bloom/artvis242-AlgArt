@@ -5,6 +5,8 @@ let myCenter;
 let myDots = []; // array to hold dot objects
 let rand;
 let col;
+let rotation = 0;
+let rotFactor = 0.06;
 
 //Create 1 center object and fill myDots array
 function setup(){
@@ -120,7 +122,13 @@ class Center{
     display(){
         noStroke();
         fill(this.color);
-        this.shape(this.x, this.y, this.size, this.size);
+        if(this.shape === rect){
+            rotation += rotFactor;
+            translate(windowWidth/2, windowHeight/2);
+            rotate(rotation);
+            this.shape(0, 0, this.size, this.size);
+        }
+        else{this.shape(this.x, this.y, this.size, this.size);}
     }
     //Called on mouseClick
     colorChange(){
@@ -164,6 +172,15 @@ function keyPressed(){
     if(keyCode === DOWN_ARROW){
         myDots.splice(0,1);
     }
+
+    //"left" subtract from rotation factor
+    if(keyCode === LEFT_ARROW){
+        rotFactor -= 0.01;
+    }
+    //"right" add to rotation factor
+    if(keyCode === RIGHT_ARROW){
+        rotFactor += 0.01;
+    }
     return false;
 }
 
@@ -199,6 +216,10 @@ function shapeShift(){
             myDots[i].shape = rect;
         }
     }
+}
+
+function rotateSwap(){
+    rotFactor *= -1;
 }
 
 
